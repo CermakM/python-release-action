@@ -14,7 +14,10 @@ ENV USER=release-bot
 COPY . /
 COPY entrypoint.sh /entrypoint.sh
 
-RUN pip install release-bot jinja2 jinja-cli
+RUN pip install \
+    "git+https://github.com/user-cont/release-bot@${GITHUB_REF##*/}" \
+    jinja2 \
+    jinja2-cli
 
 USER root
 ENTRYPOINT [ "/entrypoint.sh" ]
