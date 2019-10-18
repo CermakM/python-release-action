@@ -9,13 +9,14 @@ LABEL "repository"="http://github.com/cermakm/python-release-action"
 LABEL "homepage"="http://github.com/cermakm/python-release-action"
 LABEL "maintainer"="Marek Cermak <macermak@redhat.com>"
 
+ARG GITHUB_REVISION=master
 ENV USER=release-bot
 
 COPY . /
 COPY entrypoint.sh /entrypoint.sh
 
 RUN pip install \
-    "git+https://github.com/user-cont/release-bot@${GITHUB_REF##*/}" \
+    "git+https://github.com/user-cont/release-bot@${GITHUB_REVISION}" \
     jinja2 \
     jinja2-cli
 
