@@ -1,0 +1,30 @@
+name: 'Python Release'
+description: 'Action to take care of releasing and publishing.'
+author: 'Marek Cermak'
+
+inputs: 
+  config:
+    description: 'Configuration file name.'
+    default: 'conf.yaml'
+  changelog:
+    description: 'Whether to generate CHANGELOG.'
+    default: false
+  pypi:
+    description: |
+      PyPI configuration.
+
+      Example:
+        username: <username>
+        password: <password>
+        repository: https://test.pypi.com/legacy/
+
+      see https://docs.python.org/3.3/distutils/packageindex.html#pypirc for more info
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - '${{ inputs.config }}'
+  env:
+    CHANGELOG   : '${{ inputs.changelog }}'
+    GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+    PYPI        : '${{ inputs.pypi }}'
