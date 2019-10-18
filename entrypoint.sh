@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-[ ! -z ${PYPI} ] && export PYPI_RELEASE=true
+[ ! -z "${PYPI}" ] && export PYPI_RELEASE=true
 
 _prep() {
     >&2 echo -E "\nProcessing Jinja2 templates ...\n"
@@ -16,6 +16,8 @@ _prep() {
 }
 
 main() {
+    : "${CHANGELOG?Must set CHANGELOG env var}"
+    : "${PYPI?Must set PYPI env var}"
     _prep || exit 1
 
     local config=$1
