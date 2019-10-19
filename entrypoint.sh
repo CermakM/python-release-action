@@ -1,21 +1,26 @@
-#!/bin/bash -l
+#!/bin/bash
 
 set -euo pipefail
 
-[ ! -z "${PYPI}" ] && export PYPI_RELEASE=true || PYPI_RELEASE=false
+[ ! -z "${PYPI}" ] && PYPI_RELEASE=true \
+                   || PYPI_RELEASE=false
 
 _prep() {
-    >&2 echo -e "\nProcessing Jinja2 templates ...\n"
+    >&2 echo -e "\n--- Processing templates ...\n"
 
-    find ${RELEASE_TEMPLATES} -type f ! -name '*.tpl' | while read fpath; do
+    local templates=$(find ${RELEASE_TEMPLATES} -type f ! -name '*.tpl' -exec basename {} \;)
+
+    for fname in ${templates}; do
     {
-        local fname="$(basename ${fpath})"
-
         >&2 echo -e "\tTemplate: ${fname}"
-        if test -f "${fname}"; then
+
+        if [ -f "${fname}" ] ; then
             >&2 echo -e "\t\tFile '${fname}' already exists. Skipping."
         else
-            jinja2 ${RELEASE_TEMPLATES}/${fname} -o "${fname}" || exit 1
+            jinja2 ${RELEASE_TEMPLATES}/${fname} -o ${fname} \
+                -D CHANGELOG=${CHANGELOG} \
+                -D PYPI=${PYPI} \
+                -D PYPI_RELEASE=${PYPI_RELEASE} || exit 1
             >&2 echo -e "\t\tDone."
         fi
     }
@@ -23,11 +28,13 @@ _prep() {
 }
 
 main() {
-    : "${GITHUB_TOKEN?Must set PYPI env var}"
+    : "${GITHUB_TOKEN?Must set GITHUB_TOKEN env var}"
+    >&2 echo -e "\n--- Environment:\n" ; env
+
     _prep || exit 1
 
     # Run Release Bot
-    >&2 echo -e "\nRunning Release Bot ...\n"
+    >&2 echo -e "\n--- Running Release Bot ...\n"
     GIT_SSH_COMMAND='ssh -o StrictHostKeyChecking=no' release-bot --debug -c conf.yaml
 }
 
