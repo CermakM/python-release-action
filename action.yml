@@ -21,7 +21,7 @@ inputs:
       see https://docs.python.org/3.3/distutils/packageindex.html#pypirc for more info
 runs:
   using: 'docker'
-  image: 'docker://cermakm/python-release-action:latest'
+  image: 'docker://cermakm/python-release-action:experimental'
   args:
     - '${{ inputs.config }}'
   env:

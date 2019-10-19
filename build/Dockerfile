@@ -16,7 +16,7 @@ COPY . /
 COPY entrypoint.sh /entrypoint.sh
 
 RUN pip install \
-    "git+https://github.com/user-cont/release-bot@${GITHUB_REVISION}" \
+    "git+https://github.com/cermakm/release-bot@${GITHUB_REVISION}" \
     jinja2 \
     jinja2-cli
 
