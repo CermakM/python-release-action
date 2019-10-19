@@ -18,6 +18,9 @@ _prep() {
         fi
     }
     done
+
+    # copy rest of the configuration files
+    find ${RELEASE_CONFIG_DIRECTORY} -type f -exec cp -n {} . \;
 }
 
 main() {
