@@ -7,10 +7,15 @@ set -euo pipefail
 _prep() {
     >&2 echo -E "\nProcessing Jinja2 templates ...\n"
 
-    find templates/ -type f | while read fname; do
+    find ${RELEASE_CONFIG_DIRECTORY}/templates/ -type f | while read fname; do
     {
         >&2 echo -E "\tTemplate: ${fname}"
-        jinja2 templates/${fname} -o ${fname}
+        if test -f "${fname}"; then
+            >&2 echo -E "\t\tFile '${fname}' already exists. Skipping."
+        else
+            jinja2 ${RELEASE_CONFIG_DIRECTORY}/templates/${fname} -o "${fname}"
+            >&2 echo -E "\t\tDone."
+        fi
     }
     done
 }

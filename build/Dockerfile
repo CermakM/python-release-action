@@ -10,10 +10,13 @@ LABEL "homepage"="http://github.com/cermakm/python-release-action"
 LABEL "maintainer"="Marek Cermak <macermak@redhat.com>"
 
 ARG GITHUB_REVISION=master
-ENV USER=release-bot
+ENV USER=release-bot \
+    RELEASE_CONFIG_DIRECTORY=/config/
 
-COPY . /
-COPY entrypoint.sh /entrypoint.sh
+COPY LICENSE README.md /
+COPY templates/ .gitchangelog.rc markdown.tpl ${RELEASE_CONFIG_DIRECTORY}
+
+COPY entrypoint.sh /usr/bin/release
 
 RUN pip install \
     "git+https://github.com/cermakm/release-bot@${GITHUB_REVISION}" \
@@ -21,4 +24,4 @@ RUN pip install \
     jinja2-cli
 
 USER root
-ENTRYPOINT [ "/entrypoint.sh" ]
+ENTRYPOINT [ "release" ]
