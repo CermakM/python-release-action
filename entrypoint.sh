@@ -24,7 +24,7 @@ main() {
 
     # Run Kebechet
     >&2 echo -E "\nRunning Release Bot ...\n"
-    GIT_SSH_COMMAND='ssh -o StrictHostKeyChecking=no' release-bot -c $config
+    GIT_SSH_COMMAND='ssh -o StrictHostKeyChecking=no' release-bot --debug -c $config
 }
 
 main "$@"
