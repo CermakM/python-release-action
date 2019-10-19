@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-[ ! -z "${PYPI}" ] && export PYPI_RELEASE=true
+[ ! -z "${PYPI}" ] && export PYPI_RELEASE=true || PYPI_RELEASE=false
 
 _prep() {
     >&2 echo -e "\nProcessing Jinja2 templates ...\n"
@@ -15,7 +15,7 @@ _prep() {
         if test -f "${fname}"; then
             >&2 echo -e "\t\tFile '${fname}' already exists. Skipping."
         else
-            jinja2 ${RELEASE_TEMPLATES}/${fname} -o "${fname}"
+            jinja2 ${RELEASE_TEMPLATES}/${fname} -o "${fname}" || exit 1
             >&2 echo -e "\t\tDone."
         fi
     }
