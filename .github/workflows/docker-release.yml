@@ -23,8 +23,8 @@ jobs:
           IMAGE_TAG='latest'
         fi
         docker build . \
-          --file build/Dockerfile \ 
-          --build-arg GITHUB_REVISION=${GITHUB_REF##*/} \ 
+          --file build/Dockerfile \
+          --build-arg GITHUB_REVISION=${GITHUB_REF##*/} \
           --tag cermakm/python-release-action:${IMAGE_TAG}
       
     - name: Login to the DockerHub
