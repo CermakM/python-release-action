@@ -16,8 +16,7 @@ _prep() {
 }
 
 main() {
-    : "${CHANGELOG?Must set CHANGELOG env var}"
-    : "${PYPI?Must set PYPI env var}"
+    : "${GITHUB_TOKEN?Must set PYPI env var}"
     _prep || exit 1
 
     # Run Kebechet

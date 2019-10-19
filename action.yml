@@ -20,6 +20,5 @@ runs:
   using: 'docker'
   image: 'docker://cermakm/python-release-action:experimental'
   env:
-    CHANGELOG   : '${{ inputs.changelog }}'
-    GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-    PYPI        : '${{ inputs.pypi }}'
+    CHANGELOG: '${{ inputs.changelog }}'
+    PYPI     : '${{ inputs.pypi }}'
