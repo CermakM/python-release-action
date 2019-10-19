@@ -20,11 +20,9 @@ main() {
     : "${PYPI?Must set PYPI env var}"
     _prep || exit 1
 
-    local config=$1
-
     # Run Kebechet
     >&2 echo -E "\nRunning Release Bot ...\n"
-    GIT_SSH_COMMAND='ssh -o StrictHostKeyChecking=no' release-bot --debug -c $config
+    GIT_SSH_COMMAND='ssh -o StrictHostKeyChecking=no' release-bot --debug -c conf.yaml
 }
 
 main "$@"

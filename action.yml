@@ -3,9 +3,6 @@ description: 'Action to take care of releasing and publishing.'
 author: 'Marek Cermak'
 
 inputs: 
-  config:
-    description: 'Configuration file name.'
-    default: 'conf.yaml'
   changelog:
     description: 'Whether to generate CHANGELOG.'
     default: false
@@ -22,8 +19,6 @@ inputs:
 runs:
   using: 'docker'
   image: 'docker://cermakm/python-release-action:experimental'
-  args:
-    - '${{ inputs.config }}'
   env:
     CHANGELOG   : '${{ inputs.changelog }}'
     GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
