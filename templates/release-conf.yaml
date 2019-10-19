@@ -1,5 +1,5 @@
 labels:
 - bot
 - release
-pypi: {{ PYPI_RELEASE | default( true ) }}
+pypi: {{ PYPI_RELEASE | default( false ) }}
 trigger_on_issue: true

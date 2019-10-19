@@ -7,8 +7,10 @@ set -euo pipefail
 _prep() {
     >&2 echo -e "\nProcessing Jinja2 templates ...\n"
 
-    find ${RELEASE_TEMPLATES} -type f | while read fname; do
+    find ${RELEASE_TEMPLATES} -type f ! -name '*.tpl' | while read fpath; do
     {
+        local fname="$(basename ${fpath})"
+
         >&2 echo -e "\tTemplate: ${fname}"
         if test -f "${fname}"; then
             >&2 echo -e "\t\tFile '${fname}' already exists. Skipping."
