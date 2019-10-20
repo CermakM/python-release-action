@@ -1,11 +1,13 @@
 #!/bin/bash
-
 set -euo pipefail
+
 
 [ ! -z "${PYPI}" ] && PYPI_RELEASE=true \
                    || PYPI_RELEASE=false
 
+
 _prep() {
+    >&2 echo -e "\n--- Found myself running in ${PWD} ...\n"
     >&2 echo -e "\n--- Processing templates ...\n"
 
     local templates=$(find ${RELEASE_TEMPLATES} -type f ! -name '*.tpl' -exec basename {} \;)
@@ -29,8 +31,11 @@ _prep() {
 
 main() {
     : "${GITHUB_TOKEN?Must set GITHUB_TOKEN env var}"
-    >&2 echo -e "\n--- Environment:\n" ; env
+    : "${GITHUB_WORKSPACE?Must set GITHUB_WORKSPACE env var}"
 
+    export REPO_PATH=${GITHUB_WORKSPACE}; cd ${REPO_PATH}
+
+    >&2 echo -e "\n--- Environment:\n" ; env
     _prep || exit 1
 
     # Run Release Bot
