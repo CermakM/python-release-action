@@ -27,6 +27,8 @@ _prep() {
         fi
     }
     done
+
+    >&2 echo -e "\n--- Local directory content ...\n" ; ls -calh
 }
 
 main() {
