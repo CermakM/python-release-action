@@ -2,8 +2,8 @@
 set -euo pipefail
 
 
-[ ! -z "${PYPI}" ] && PYPI_RELEASE=true \
-                   || PYPI_RELEASE=false
+[ ! -z "${PYPI}" ] && export PYPI_RELEASE=true \
+                   || export PYPI_RELEASE=false
 
 
 _prep() {
@@ -30,14 +30,8 @@ _prep() {
 
     >&2 echo -e "\n--- Setting git config ...\n" ; ls -calh
 
-    wget -O /usr/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 &>/dev/null
-    chmod +x /usr/bin/jq
-
-    git config --global user.name "${GITHUB_ACTOR}"
-    git config --global user.email $(
-        curl -s -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/users/${GITHUB_ACTOR} |\
-        jq -r '.email'
-    )
+    git config user.name  "$(git --no-pager log --format=format:'%an' -n 1)"
+    git config user.email "$(git --no-pager log --format=format:'%ae' -n 1)"
 
     >&2 echo -e "\n--- Local directory content ...\n" ; ls -calh
 }
