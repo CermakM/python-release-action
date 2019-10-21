@@ -30,7 +30,7 @@ _prep() {
 
     >&2 echo -e "\n--- Setting git config ...\n" ; ls -calh
 
-    wget -O /usr/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 >/dev/null
+    wget -O /usr/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 &>/dev/null
     chmod +x /usr/bin/jq
 
     git config --global user.name "${GITHUB_ACTOR}"
