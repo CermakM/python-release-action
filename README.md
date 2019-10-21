@@ -16,7 +16,7 @@ Create the Release Bot workflow under `.github/workflows/` and call it for examp
 ---
 name: Release Bot
 
-on: [issues, issue_comment]
+on: [issues]
 
 jobs:
   build:
