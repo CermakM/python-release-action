@@ -19,7 +19,7 @@ name: Release Bot
 on: [issues]
 
 jobs:
-  build:
+  release:
 
     runs-on: ubuntu-latest
     

@@ -21,8 +21,8 @@ _prep() {
         jq -r '.email'
     )
 
-    git config --global user.name "${GITHUB_ACTOR_LOGIN}"
-    git config --global user.email ${GITHUB_ACTOR_EMAIL}
+    git config --global user.name  "${GITHUB_ACTOR_LOGIN}"
+    git config --global user.email "${GITHUB_ACTOR_EMAIL}"
 
     git clone https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git . 
 
@@ -56,8 +56,9 @@ main() {
 
     export REPO_PATH=${PWD};
 
-    >&2 echo -e "\n--- Environment:\n" ; env
     _prep || exit 1
+
+    >&2 echo -e "\n--- Environment:\n" ; env
 
     # Run Release Bot
     >&2 echo -e "\n--- Running Release Bot ...\n"
