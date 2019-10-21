@@ -28,10 +28,22 @@ _prep() {
     }
     done
 
+    >&2 echo -e "\n--- Setting git config ...\n" ; ls -calh
+
+    wget -O /usr/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 >/dev/null
+    chmod +x /usr/bin/jq
+
+    git config --global user.name "${GITHUB_ACTOR}"
+    git config --global user.email $(
+        curl -s -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/users/${GITHUB_ACTOR} |\
+        jq -r '.email'
+    )
+
     >&2 echo -e "\n--- Local directory content ...\n" ; ls -calh
 }
 
 main() {
+    : "${GITHUB_ACTOR?Must set GITHUB_ACTOR env var}"
     : "${GITHUB_TOKEN?Must set GITHUB_TOKEN env var}"
     : "${GITHUB_WORKSPACE?Must set GITHUB_WORKSPACE env var}"
 
