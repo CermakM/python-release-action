@@ -8,6 +8,15 @@ set -euo pipefail
 
 _prep() {
     >&2 echo -e "\n--- Found myself running in ${PWD} ...\n"
+    >&2 echo -e "\n--- Setting git config ...\n" ; ls -calh
+
+    cd ${REPO_PATH}
+
+    git config user.name  "$(git --no-pager log --format=format:'%an' -n 1)"
+    git config user.email "$(git --no-pager log --format=format:'%ae' -n 1)"
+
+    git clone https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git . 
+
     >&2 echo -e "\n--- Processing templates ...\n"
 
     local templates=$(find ${RELEASE_TEMPLATES} -type f ! -name '*.tpl' -exec basename {} \;)
@@ -27,13 +36,6 @@ _prep() {
         fi
     }
     done
-
-    >&2 echo -e "\n--- Setting git config ...\n" ; ls -calh
-
-    git config user.name  "$(git --no-pager log --format=format:'%an' -n 1)"
-    git config user.email "$(git --no-pager log --format=format:'%ae' -n 1)"
-
-    git clone https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git ${REPO_PATH}
 
     >&2 echo -e "\n--- Local directory content ...\n" ; ls -calh
 }
