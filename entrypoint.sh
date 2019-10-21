@@ -33,6 +33,8 @@ _prep() {
     git config user.name  "$(git --no-pager log --format=format:'%an' -n 1)"
     git config user.email "$(git --no-pager log --format=format:'%ae' -n 1)"
 
+    git clone https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git ${REPO_PATH}
+
     >&2 echo -e "\n--- Local directory content ...\n" ; ls -calh
 }
 
@@ -41,7 +43,7 @@ main() {
     : "${GITHUB_TOKEN?Must set GITHUB_TOKEN env var}"
     : "${GITHUB_WORKSPACE?Must set GITHUB_WORKSPACE env var}"
 
-    export REPO_PATH=${GITHUB_WORKSPACE}; cd ${REPO_PATH}
+    export REPO_PATH=${PWD};
 
     >&2 echo -e "\n--- Environment:\n" ; env
     _prep || exit 1

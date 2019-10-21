@@ -24,8 +24,6 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v1
-    
     - name: Release
       uses: cermakm/release-bot@experimental  # currently experimental
       env:
